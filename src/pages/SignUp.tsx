@@ -17,13 +17,20 @@ type FieldType = {
 const SignUp: React.FC = () => {
   const navigate = useNavigate();
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
+    const { first_name, last_name, phone_number, email, password } = values;
+    const data = {
+      first_name,
+      last_name,
+      phone_number: phone_number?.split(" ").join(""),
+      email,
+      password,
+    }
     async function SignUserRequest() {
       try {
         const response = await useAxios().post(
           `${API_URL}/auth/admin/sign-up`,
-          values
+          data
         );
-        console.log(response);
         navigate("/");
         (values.email = ""),
           (values.password = ""),

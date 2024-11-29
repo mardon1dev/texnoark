@@ -17,10 +17,15 @@ const Login: React.FC = () => {
   const axiosInstance = useAxios();
 
   const onFinish: FormProps<FieldType>["onFinish"] = async (values) => {
+    const { phone_number, password } = values;
+    const data = {
+      phone_number: phone_number?.split(" ").join(""),
+      password,
+    };
     try {
       const response = await axiosInstance.post(
         `${API_URL}/auth/sign-in`,
-        values
+        data
       );
 
       if (response?.data?.data?.tokens?.access_token) {
